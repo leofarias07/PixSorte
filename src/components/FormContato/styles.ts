@@ -5,8 +5,6 @@ export const Container = styled.section`
   justify-content: center;
   align-items: center;
   background: ${({ theme }) => theme.colors.verdeClaro};
-
-  margin-top: 5rem;
   width: 442px;
   height: 550px;
   border-radius: 10px;
