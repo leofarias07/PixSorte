@@ -4,7 +4,7 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.verdeClaro};
+  background: #16db65;
   width: 442px;
   height: 550px;
   border-radius: 10px;
@@ -27,11 +27,11 @@ export const FormContainer = styled.form`
   > button {
     border: none;
     padding: 1rem 2.5rem;
-    color: ${({ theme }) => theme.colors.verdeClaro};
+    color: #16db65;
     font-weight: 300;
     font-size: 1.2rem;
     border-radius: 0.5rem;
-    background: ${({ theme }) => theme.colors.verdeEscuro};
+    background: #93ff96;
     transition: 0.5s;
     width: 301px;
     height: 78px;
@@ -41,7 +41,7 @@ export const FormContainer = styled.form`
     }
 
     &:not(:disabled):hover {
-      background: ${({ theme }) => theme.colors.amarelo};
+      background: #f7fc09;
     }
   }
   @media (max-width: 700px) {
@@ -76,7 +76,7 @@ export const Input = styled.input`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.verdeEscuro};
+    color: #058c42;
   }
 
   @media (max-width: 450px) {

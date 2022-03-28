@@ -1,10 +1,14 @@
-const theme = {
-  colors: {
-    verdeClaro: '#16DB65',
-    verdeEscuro: '#058C42',
-    text: '#fff',
-    amarelo: '#F7FC09'
+import { extendTheme } from '@chakra-ui/react';
+
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        bg: 'gray.900',
+        color: 'gray.50'
+      }
+    }
   }
-};
+});
 
 export default theme;
