@@ -1,6 +1,6 @@
 import Form from './Form';
 import { Container } from './styles';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/logo.png';
 
 function FormContato() {
   return (
