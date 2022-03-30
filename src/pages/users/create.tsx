@@ -5,11 +5,11 @@ import {
   Heading,
   SimpleGrid,
   VStack,
-  Input,
   HStack,
   Button
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import { Input } from '../../components/Form/Input';
 
 import { Header } from '../../components/Header';
 
@@ -24,7 +24,7 @@ export default function CreateUser() {
         <SideBar />
 
         <Box flex="1" borderRadius={8} bg="green.800" p={['6', '8']}>
-          <Heading size="lg" fontWeight="normal">
+          <Heading size="lg" fontWeight="normal" color="white">
             Criar usuário
           </Heading>
 

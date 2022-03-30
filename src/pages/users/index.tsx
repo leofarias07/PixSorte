@@ -34,7 +34,7 @@ export default function UserList() {
 
         <Box flex="1" borderRadius={8} bg="green.800" p="8">
           <Flex mb="8" justify="space-between" align="center">
-            <Heading size="lg" fontWeight="normal">
+            <Heading size="lg" fontWeight="normal" color="white">
               Usuários
             </Heading>
             <Link href="/users/create" passHref>
