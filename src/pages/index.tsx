@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Input } from '../components/Form/Input';
 import logo from '../assets/logo.png';
+import { Logo } from '../components/Header/Logo';
 
 type SignInFormData = {
   email: string;
@@ -39,15 +40,11 @@ export default function SignIn() {
         flexDir="column"
         onSubmit={handleSubmit(handleSignIn)}
       >
+        <Flex ml="14" mt="5" mb="12">
+          <Logo />
+        </Flex>
+
         <Stack spacing="4">
-          <Image
-            boxSize="120px"
-            objectFit="cover"
-            src={logo}
-            alt="Dan Abramov"
-            ml="20"
-            mb="8"
-          />
           <Input
             name="email"
             type="email"

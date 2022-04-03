@@ -33,7 +33,7 @@ export function SideBar() {
     );
   }
   return (
-    <Box as="aside" w="64" mr="8">
+    <Box as="aside" w="48" mr="2" borderRight="2px" borderColor="white">
       <SidebarNav />
     </Box>
   );
