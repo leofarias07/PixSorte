@@ -1,10 +1,9 @@
-import { Flex, Button, Stack, Image } from '@chakra-ui/react';
+import { Flex, Button, Stack } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Input } from '../components/Form/Input';
-import logo from '../assets/logo.png';
 import { Logo } from '../components/Header/Logo';
 
 type SignInFormData = {

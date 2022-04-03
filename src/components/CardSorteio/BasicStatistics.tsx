@@ -28,6 +28,7 @@ export default function BasicStatistics({ cards }: CardArray) {
               key={card.card_id}
               data={card.date_sort}
               status="Acumulado"
+              card={card}
             />
           ))}
       </SimpleGrid>
