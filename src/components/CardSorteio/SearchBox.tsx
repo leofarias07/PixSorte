@@ -8,6 +8,8 @@ interface SearchBoxProps {
   values: Array<number[]>;
   setCardFound: (any) => void;
   card_id: string;
+  setCards: (any) => void;
+  status: string;
 }
 export function SearchBox(props: SearchBoxProps) {
   const [numberSorted, setNumberSorted] = useState('');
@@ -32,12 +34,17 @@ export function SearchBox(props: SearchBoxProps) {
         value_sorted: numberFound[0][2]
       });
 
+      // After update the database, i'm requiring the updated data
+      props.setCards((value: number) => value + 1);
     } else {
       props.setCardFound([]);
 
       api.put(`cards/update/${props.card_id}`, {
         new_status: 'Acumulado'
       });
+
+      // After update the database, i'm requiring the updated data
+      props.setCards((value: number) => value + 1);
     }
   }
   return (
@@ -51,6 +58,7 @@ export function SearchBox(props: SearchBoxProps) {
       color="green.200"
       position="relative"
       bg="green.800"
+      opacity={props.status ? 0.5 : 1}
       borderRadius="full"
     >
       <Input
@@ -58,6 +66,8 @@ export function SearchBox(props: SearchBoxProps) {
         variant="unstyled"
         px="4"
         mr="4"
+        cursor={props.status ? 'not-allowed' : 'auto'}
+        disabled={!!props.status}
         placeholder="Numero Sorteado"
         _placeholder={{ color: 'green.400' }}
         onChange={e => setNumberSorted(e.target.value)}
