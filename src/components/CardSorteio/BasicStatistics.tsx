@@ -1,9 +1,10 @@
 import { Box, chakra, SimpleGrid } from '@chakra-ui/react';
 // eslint-disable-next-line import/no-cycle
 import { CardArray } from './index';
+// eslint-disable-next-line import/no-cycle
 import { StatsCard } from './StatsCard';
 
-export default function BasicStatistics({ cards }: CardArray) {
+export default function BasicStatistics({ cards, setCards }: CardArray) {
   return (
     <Box
       minW={['330px', '6xl']}
@@ -23,14 +24,16 @@ export default function BasicStatistics({ cards }: CardArray) {
       </chakra.h1>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
         {cards &&
-          cards.map(card => (
-            <StatsCard
-              key={card.card_id}
-              data={card.date_sort}
-              status="Acumulado"
-              card={card}
-            />
-          ))}
+          cards
+            .sort()
+            .map(card => (
+              <StatsCard
+                key={card.card_id}
+                data={card.date_sort}
+                card={card}
+                setCards={setCards}
+              />
+            ))}
       </SimpleGrid>
     </Box>
   );

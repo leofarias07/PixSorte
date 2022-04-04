@@ -3,11 +3,12 @@ import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import CardSorteio from '../../components/CardSorteio';
 import { Header } from '../../components/Header';
-import { SideBar } from '../../components/Sidebar';
 import api from '../../services/api';
 
 export default function DashboardUser() {
-  const [cards, setCards] = useState();
+  const [cards, setCards] = useState([]);
+  const [callApi, setCallApi] = useState(0);
+
   const config = {
     headers: {
       'user-uuid': '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d'
@@ -18,12 +19,12 @@ export default function DashboardUser() {
       .get('cards', config)
       .then(response => {
         setCards(response.data);
-        console.log(response.data);
       })
       .catch(err => {
-        console.error('ops! ocorreu um erro' + err);
+        // eslint-disable-next-line no-alert
+        alert('ops! ocorreu um erro' + err);
       });
-  }, []);
+  }, [callApi]);
 
   return (
     <Flex direction="column" h="100vh">
@@ -35,7 +36,7 @@ export default function DashboardUser() {
           minChildWidth="320px"
           alignItems="flex-start"
         >
-          <CardSorteio cards={cards} />
+          <CardSorteio cards={cards} setCards={setCallApi} />
         </SimpleGrid>
       </Flex>
     </Flex>
