@@ -3,7 +3,6 @@ import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import CardSorteio from '../../components/CardSorteio';
 import { Header } from '../../components/Header';
-import { SideBar } from '../../components/Sidebar';
 import api from '../../services/api';
 
 export default function DashboardUser() {

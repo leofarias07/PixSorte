@@ -19,7 +19,16 @@ import {
   InputLeftAddon,
   Input,
   Text,
-  HStack
+  HStack,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Stack
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import React from 'react';
@@ -79,77 +88,72 @@ export default function CardSoteio(props: CardArray) {
                 <ModalHeader color="white">Cartela</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                  <Flex>
-                    <SimpleGrid pr="5" borderRight="1px" borderColor="white">
-                      <VStack>
-                        <SimpleGrid
-                          minChildWidth="240px"
-                          spacing={['6', '8']}
-                          w="500px"
-                        >
-                          <Input
-                            w="100%"
-                            name="titulo"
-                            placeholder="Titulo da Cartela"
-                          />
-                        </SimpleGrid>
-                        <SimpleGrid
-                          minChildWidth="240px"
-                          spacing={['6', '8']}
-                          w="500px"
-                        >
-                          <Flex gap="4" direction="row">
-                            <InputGroup>
-                              <InputLeftAddon children="Min" />
-                              <Input type="number" placeholder="Minimo" />
-                            </InputGroup>
-                            <InputGroup>
-                              <InputLeftAddon children="Max" />
-                              <Input type="number" placeholder="Minimo" />
-                            </InputGroup>
-                            <InputGroup>
-                              <InputLeftAddon children="Cartelas" />
-                              <Input type="number" placeholder="" />
-                            </InputGroup>
+                  <Flex justify="space-between">
+                    <Flex>
+                      <FormControl>
+                        <Stack>
+                          <InputGroup>
+                            <InputLeftAddon children="N. Cartelas" />
+                            <Input type="number" placeholder="Ex: 10" />
+                            
+                          </InputGroup>
+                          <InputGroup>
+                            <InputLeftAddon children="R$" />
+                            <Input
+                              type="number"
+                              placeholder="Ex: 2.50"
+                              w="24"
+                            />
+                          </InputGroup>
+
+                          <Flex>
+                          <InputGroup>
+                            <InputLeftAddon children="Min" />
+                            <Input
+                              type="number"
+                              placeholder="Ex: 1000"
+                              w="24"
+                            />
+                          </InputGroup>
+                          <InputGroup>
+                            <InputLeftAddon children="Max" />
+                            <Input
+                              type="number"
+                              placeholder="Ex: 9999"
+                              w="24"
+                            />
+                          </InputGroup>
                           </Flex>
+                        </Stack>
+                      </FormControl>
+                    </Flex>
 
-                          <Input
-                            name="maximo"
-                            type="number"
-                            placeholder="Numeros gerados por cartela"
-                          />
-                        </SimpleGrid>
-                      </VStack>
-                    </SimpleGrid>
-
-                    <SimpleGrid px="5">
-                      <Flex
-                        direction="column"
-                        w="538px"
-                        h="190px"
-                        bgImage="url('/pixdasorte.png')"
-                        bgRepeat="no-repeat"
-                      >
-                        <Flex direction="row" mt="12" ml="6">
-                          <HStack>
-                            <Text fontSize="13px" fontWeight="bold">
-                              1234
-                            </Text>
-                            <Text fontSize="13px" fontWeight="bold">
-                              1234
-                            </Text>
-                            <Text fontSize="13px" fontWeight="bold">
-                              1234
-                            </Text>
-                            <Text fontSize="13px" fontWeight="bold">
-                              1234
-                            </Text>
-                          </HStack>
-                        </Flex>
-
-                        <Text fontSize="13px" fontWeight="bold" />
+                    <Flex
+                      direction="column"
+                      w="538px"
+                      h="190px"
+                      bgImage="url('/pixdasorte.png')"
+                      bgRepeat="no-repeat"
+                    >
+                      <Flex direction="row" mt="12" ml="6">
+                        <HStack>
+                          <Text fontSize="13px" fontWeight="bold">
+                            1234
+                          </Text>
+                          <Text fontSize="13px" fontWeight="bold">
+                            1234
+                          </Text>
+                          <Text fontSize="13px" fontWeight="bold">
+                            1234
+                          </Text>
+                          <Text fontSize="13px" fontWeight="bold">
+                            1234
+                          </Text>
+                        </HStack>
                       </Flex>
-                    </SimpleGrid>
+
+                      <Text fontSize="13px" fontWeight="bold" />
+                    </Flex>
                   </Flex>
                 </ModalBody>
                 <ModalFooter>
