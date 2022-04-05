@@ -43,13 +43,16 @@ export type CardsProps = {
   min: number;
   max: number;
   amount_random_number: number;
-  values_sorted?: Array<number[]>;
+  values_sorted: Array<number[]>;
   client_id: string;
   date_sort: Date;
+  status: string | null;
+  sort_result: number | null;
 };
 
 export type CardArray = {
   cards: CardsProps[];
+  setCards: (any) => void;
 };
 
 export default function CardSoteio(props: CardArray) {
@@ -171,7 +174,7 @@ export default function CardSoteio(props: CardArray) {
           </>
         </Box>
       </Flex>
-      <BasicStatistics cards={props.cards} />
+      <BasicStatistics cards={props.cards} setCards={props.setCards} />
     </Box>
   );
 }

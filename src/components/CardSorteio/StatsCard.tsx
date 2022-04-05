@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable import/no-cycle */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Stack,
@@ -19,27 +21,30 @@ import {
   HStack
 } from '@chakra-ui/react';
 import { MdDateRange } from 'react-icons/md';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchBox } from './SearchBox';
+import { CardsProps } from './index';
 
 interface StatsCardProps {
   data: Date;
-  status: string;
-  card: {
-    card_id: string;
-    title: string;
-    number_of_cards: number;
-    unit_price: number;
-    min: number;
-    max: number;
-    amount_random_number: number;
-    values_sorted?: Array<number[]>;
-    client_id: string;
-    date_sort: Date;
-  };
+  card: CardsProps;
+  setCards: (any) => void;
 }
 export function StatsCard(props: StatsCardProps) {
   const [cardFound, setCardFound] = useState([]);
+
+  const [cardThatContainsSortedNumber, setCardThatContainsSortedNumber] =
+    useState([]);
+
+  useEffect(() => {
+    setCardThatContainsSortedNumber(
+      // eslint-disable-next-line react/destructuring-assignment
+      props.card.values_sorted.filter(singlecard =>
+        singlecard.includes(props.card.sort_result)
+      )
+    );
+  }, [cardFound]);
+
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -52,10 +57,8 @@ export function StatsCard(props: StatsCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { data, status, card } = props;
+  const { data, card } = props;
   const date = new Date(data);
-
-  console.log(cardFound);
 
   return (
     <Stat
@@ -73,7 +76,7 @@ export function StatsCard(props: StatsCardProps) {
           </Text>
         </StatLabel>
         <StatLabel fontWeight="medium" isTruncated color="white">
-          <Text fontSize="2xl">Premio: {status}</Text>
+          <Text fontSize="2xl">Premio: {card.status || 'Pendente'}</Text>
         </StatLabel>
       </Stack>
       <Flex>
@@ -103,6 +106,10 @@ export function StatsCard(props: StatsCardProps) {
                     values={card.values_sorted}
                     setCardFound={setCardFound}
                     card_id={card.card_id}
+                    // eslint-disable-next-line react/destructuring-assignment
+                    setCards={props.setCards}
+                    // eslint-disable-next-line react/destructuring-assignment
+                    status={props.card.status}
                   />
                   <Text
                     color="white"
@@ -115,7 +122,7 @@ export function StatsCard(props: StatsCardProps) {
                     borderColor={useColorModeValue('green.800', 'green.500')}
                     rounded="lg"
                   >
-                    Numero Sorteado: {cardFound[2] || 'Não Existe'}
+                    Numero Sorteado: {card.sort_result || 'Não Existe'}
                   </Text>
                 </Flex>
                 <Flex
@@ -131,6 +138,9 @@ export function StatsCard(props: StatsCardProps) {
                   rounded="lg"
                 >
                   <Stack>
+                    <Text color="white" fontSize="xl" fontWeight="bold">
+                      Status: {card.status}
+                    </Text>
                     <Text>Numero de Cartelas: {card.number_of_cards}</Text>
                     <Text color="white" fontSize="xl" fontWeight="bold">
                       Valor R$: {card.unit_price}
@@ -150,7 +160,18 @@ export function StatsCard(props: StatsCardProps) {
                     </Flex>
 
                     <Text color="white" fontSize="xl" fontWeight="bold">
-                      Numeros Sorteados: {cardFound[0]?.map(number => `${number} `)}
+                      {/* Cartela: [{' '}
+                      {cardThatContainsSortedNumber[0]?.map(
+                        number => `${number} `
+                      ) || 'Sem cartela'}{' '}
+                      ] */}
+                      Cartela: [
+                      {cardFound[0]?.map(number => `${number} `) ||
+                        cardThatContainsSortedNumber[0]?.map(
+                          number => `${number} `
+                        ) ||
+                        'Sem cartela'}
+                      ]
                     </Text>
                   </Stack>
                 </Flex>
