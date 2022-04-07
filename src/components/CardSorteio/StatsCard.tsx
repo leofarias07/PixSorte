@@ -24,6 +24,7 @@ import { MdDateRange } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
+import api from '../../services/api';
 
 interface StatsCardProps {
   data: Date;
@@ -59,6 +60,18 @@ export function StatsCard(props: StatsCardProps) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { data, card } = props;
   const date = new Date(data);
+
+  async function Delete(card_id: string) {
+    api
+      .delete(`cards/delete/${card_id}`)
+      .then(response => {
+        alert('Dados Foram deletados');
+        window.location.href = '/dashboarduser';
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
 
   return (
     <Stat
@@ -160,12 +173,7 @@ export function StatsCard(props: StatsCardProps) {
                     </Flex>
 
                     <Text color="white" fontSize="xl" fontWeight="bold">
-                      {/* Cartela: [{' '}
-                      {cardThatContainsSortedNumber[0]?.map(
-                        number => `${number} `
-                      ) || 'Sem cartela'}{' '}
-                      ] */}
-                      Cartela: [
+                      Cartela: [{' '}
                       {cardFound[0]?.map(number => `${number} `) ||
                         cardThatContainsSortedNumber[0]?.map(
                           number => `${number} `
@@ -177,6 +185,15 @@ export function StatsCard(props: StatsCardProps) {
                 </Flex>
               </ModalBody>
               <ModalFooter>
+                <Button
+                  type="button"
+                  mr="2"
+                  colorScheme="yellow"
+                  variant="solid"
+                  onClick={() => Delete(props.card.card_id)}
+                >
+                  Delete
+                </Button>
                 <Button onClick={onClose}>Close</Button>
               </ModalFooter>
             </ModalContent>

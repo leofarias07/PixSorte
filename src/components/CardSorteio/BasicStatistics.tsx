@@ -25,7 +25,9 @@ export default function BasicStatistics({ cards, setCards }: CardArray) {
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
         {cards &&
           cards
-            .sort()
+            .sort((a, b) => {
+              return +new Date(b.date_sort) - +new Date(a.date_sort);
+            })
             .map(card => (
               <StatsCard
                 key={card.card_id}

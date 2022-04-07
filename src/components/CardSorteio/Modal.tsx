@@ -63,13 +63,8 @@ export default function FormCard() {
             </Flex>
           </ModalBody>
           <ModalFooter>
-            <Button
-              onClick={onClose}
-              colorScheme="yellow"
-              variant="solid"
-              leftIcon={<AddIcon />}
-            >
-              Gerar
+            <Button onClick={onClose} colorScheme="yellow" variant="solid">
+              Fechar
             </Button>
           </ModalFooter>
         </ModalContent>
