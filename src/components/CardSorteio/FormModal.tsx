@@ -1,28 +1,25 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import api from '../../services/api';
 
 export default function FormModal() {
   const [title, setTitle] = useState('');
-  const [numberOfCards, setNumberOfCards] = useState<null | number>(null);
-  const [unitPrice, setUnitPrice] = useState<null | number>(null);
-  const [min, setMin] = useState<null | number>(null);
-  const [max, setMax] = useState<null | number>(null);
-  const [date, setDate] = useState<string | null>(null);
-  const [amountRandomNumber, setAmountRandomNumber] =
-    useState<null | number>(null);
+  const [numberOfCards, setNumberOfCards] = useState('');
+  const [unitPrice, setUnitPrice] = useState('');
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('');
+  const [date, setDate] = useState('');
+  const [amountRandomNumber, setAmountRandomNumber] = useState('');
 
-  async function HandleSubmit(e: FormEvent) {
-    e.preventDefault();
-
+  async function HandleSubmit() {
     const data = {
-      title,
-      number_of_cards: numberOfCards,
-      unit_price: unitPrice,
-      min,
-      max,
-      amount_random_number: amountRandomNumber,
+      title: title,
+      number_of_cards: +numberOfCards,
+      unit_price: +unitPrice,
+      min: +min,
+      max: +max,
+      amount_random_number: +amountRandomNumber,
       client_id: '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d',
       date_sort: date
     };
@@ -30,18 +27,19 @@ export default function FormModal() {
     api
       .post('cards/generate', data)
       .then(response => {
-        console.log(response.data);
+        alert('Cartelas Adicionadas');
+        window.location.href = '/dashboarduser';
       })
       .catch(error => {
-        console.log(error);
+        alert(error);
       });
   }
 
   return (
     <Flex w={[350, 400, 500]} direction={['column']} gap="2">
-      <FormControl onSubmit={HandleSubmit}>
+      <FormControl>
         <Flex gap="2" direction="column">
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="title" textColor="white">
             Titulo do sorteio
           </FormLabel>
           <Input
@@ -53,7 +51,7 @@ export default function FormModal() {
             }}
           />
 
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="number_of_cards" textColor="white">
             Numero de Cartelas
           </FormLabel>
           <Input
@@ -61,11 +59,11 @@ export default function FormModal() {
             type="number"
             value={numberOfCards}
             onChange={e => {
-              setNumberOfCards(+e.target.value);
+              setNumberOfCards(e.target.value);
             }}
           />
 
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="unit_price" textColor="white">
             Preço da Cartela
           </FormLabel>
           <Input
@@ -73,13 +71,13 @@ export default function FormModal() {
             type="number"
             value={unitPrice}
             onChange={e => {
-              setUnitPrice(+e.target.value);
+              setUnitPrice(e.target.value);
             }}
           />
         </Flex>
         <Flex gap="2" direction="column">
-          <FormLabel htmlFor="text" textColor="white">
-            Minino
+          <FormLabel htmlFor="min" textColor="white">
+            Mínino
           </FormLabel>
 
           <Input
@@ -87,11 +85,11 @@ export default function FormModal() {
             type="number"
             value={min}
             onChange={e => {
-              setMin(+e.target.value);
+              setMin(e.target.value);
             }}
           />
 
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="max" textColor="white">
             Maximo
           </FormLabel>
 
@@ -100,12 +98,12 @@ export default function FormModal() {
             type="number"
             value={max}
             onChange={e => {
-              setMax(+e.target.value);
+              setMax(e.target.value);
             }}
           />
         </Flex>
         <Flex gap="2" direction="column">
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="amount_random_number" textColor="white">
             Quantidade de numeros por cartela
           </FormLabel>
           <Input
@@ -113,12 +111,12 @@ export default function FormModal() {
             type="number"
             value={amountRandomNumber}
             onChange={e => {
-              setAmountRandomNumber(+e.target.value);
+              setAmountRandomNumber(e.target.value);
             }}
           />
         </Flex>
         <Flex gap="2" direction="column">
-          <FormLabel htmlFor="text" textColor="white">
+          <FormLabel htmlFor="date" textColor="white">
             Data para o sorteio
           </FormLabel>
           <Input
@@ -135,6 +133,7 @@ export default function FormModal() {
           leftIcon={<AddIcon />}
           colorScheme="yellow"
           variant="solid"
+          onClick={HandleSubmit}
         >
           Gerar Cartelas
         </Button>
