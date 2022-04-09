@@ -1,5 +1,16 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Grid,
+  GridItem,
+  Image,
+  Input,
+  Text,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import api from '../../services/api';
 
@@ -36,108 +47,226 @@ export default function FormModal() {
   }
 
   return (
-    <Flex w={[350, 400, 500]} direction={['column']} gap="2">
-      <FormControl>
-        <Flex gap="2" direction="column">
-          <FormLabel htmlFor="title" textColor="white">
-            Titulo do sorteio
-          </FormLabel>
-          <Input
-            id="title"
-            type="text"
-            value={title}
-            onChange={e => {
-              setTitle(e.target.value);
-            }}
-          />
+    <>
+      <Flex direction={['column', 'row']} gap="3" justify="space-between">
+        <Flex w={[350, 400, 500]} direction={['column']} gap="2">
+          <FormControl>
+            <Flex gap="2" direction="column">
+              <Input
+                id="title"
+                type="text"
+                value={title}
+                onChange={e => {
+                  setTitle(e.target.value);
+                }}
+                placeholder="Titulo do sorteio"
+              />
 
-          <FormLabel htmlFor="number_of_cards" textColor="white">
-            Numero de Cartelas
-          </FormLabel>
-          <Input
-            id="number_of_cards"
-            type="number"
-            value={numberOfCards}
-            onChange={e => {
-              setNumberOfCards(e.target.value);
-            }}
-          />
+              <Flex gap="3">
+                <Input
+                  id="number_of_cards"
+                  type="number"
+                  value={numberOfCards}
+                  onChange={e => {
+                    setNumberOfCards(e.target.value);
+                  }}
+                  placeholder="Numero de Cartelas"
+                />
+                <Input
+                  id="unit_price"
+                  type="number"
+                  value={unitPrice}
+                  onChange={e => {
+                    setUnitPrice(e.target.value);
+                  }}
+                  placeholder="Preço da Cartela"
+                />
+              </Flex>
+            </Flex>
+            <Flex gap="2" mt="2">
+              <Input
+                id="min"
+                type="number"
+                value={min}
+                onChange={e => {
+                  setMin(e.target.value);
+                }}
+                placeholder="Minimo"
+              />
 
-          <FormLabel htmlFor="unit_price" textColor="white">
-            Preço da Cartela
-          </FormLabel>
-          <Input
-            id="unit_price"
-            type="number"
-            value={unitPrice}
-            onChange={e => {
-              setUnitPrice(e.target.value);
-            }}
-          />
+              <Input
+                id="max"
+                type="number"
+                value={max}
+                onChange={e => {
+                  setMax(e.target.value);
+                }}
+                placeholder="Maximo"
+              />
+              <Input
+                id="amount_random_number"
+                type="number"
+                value={amountRandomNumber}
+                onChange={e => {
+                  setAmountRandomNumber(e.target.value);
+                }}
+                placeholder="Numeros por cartela"
+              />
+            </Flex>
+            <Flex gap="2" direction="column" mt="2">
+              <FormLabel htmlFor="date" textColor="white">
+                Data para o sorteio
+              </FormLabel>
+              <Input
+                id="date"
+                type="date"
+                value={date}
+                onChange={e => {
+                  setDate(e.target.value);
+                }}
+              />
+            </Flex>
+            <Flex mt="2" justify="center">
+              <Button
+                w="100%"
+                type="submit"
+                leftIcon={<AddIcon />}
+                colorScheme="yellow"
+                variant="solid"
+                onClick={HandleSubmit}
+              >
+                Gerar Cartelas
+              </Button>
+            </Flex>
+          </FormControl>
         </Flex>
-        <Flex gap="2" direction="column">
-          <FormLabel htmlFor="min" textColor="white">
-            Mínino
-          </FormLabel>
 
-          <Input
-            id="min"
-            type="number"
-            value={min}
-            onChange={e => {
-              setMin(e.target.value);
-            }}
-          />
-
-          <FormLabel htmlFor="max" textColor="white">
-            Maximo
-          </FormLabel>
-
-          <Input
-            id="max"
-            type="number"
-            value={max}
-            onChange={e => {
-              setMax(e.target.value);
-            }}
-          />
-        </Flex>
-        <Flex gap="2" direction="column">
-          <FormLabel htmlFor="amount_random_number" textColor="white">
-            Quantidade de numeros por cartela
-          </FormLabel>
-          <Input
-            id="amount_random_number"
-            type="number"
-            value={amountRandomNumber}
-            onChange={e => {
-              setAmountRandomNumber(e.target.value);
-            }}
-          />
-        </Flex>
-        <Flex gap="2" direction="column">
-          <FormLabel htmlFor="date" textColor="white">
-            Data para o sorteio
-          </FormLabel>
-          <Input
-            id="date"
-            type="date"
-            value={date}
-            onChange={e => {
-              setDate(e.target.value);
-            }}
-          />
-        </Flex>
-        <Button
-          type="submit"
-          leftIcon={<AddIcon />}
-          colorScheme="yellow"
-          variant="solid"
-          onClick={HandleSubmit}
+        <Flex
+          w={[350, 400, 500]}
+          p="2"
+          justify="center"
+          border="1px solid"
+          borderColor="white"
+          direction="column"
         >
-          Gerar Cartelas
-        </Button>
-      </FormControl>
-    </Flex>
+          <Flex w="26" h="10" justify="center" alignItems="end">
+            <Image src="/pixsortelogo.png" alt="pixsorte" />
+          </Flex>
+          <Grid h="200" templateColumns="repeat(4, 1fr)" gap="2">
+            <GridItem colSpan={3}>
+              <Text
+                textAlign="center"
+                color="white"
+                fontWeight="bold"
+                fontSize={['10px', '18px']}
+                mt="3"
+              >
+                NOSSO SORTEIO É FEITO AO VIVO <br /> NO NOSSO INSTAGRAN
+                @PIXSORTE...
+              </Text>
+              <Text
+                textAlign="center"
+                color="white"
+                fontWeight="bold"
+                fontSize={['10px', '18px']}
+                mt="2"
+              >
+                AS 20:00 DE SEGUNDA Á SEXTA
+              </Text>
+              <Flex mt="10" gap="2">
+                <Flex p="1" direction="column" justify="center" bg="green">
+                  <Text
+                    color="yellow"
+                    fontWeight="bold"
+                    fontSize={['6px', '10px']}
+                    textAlign="center"
+                  >
+                    Valor do Bilhete
+                  </Text>
+                  <Text color="yellow" fontWeight="bold" textAlign="center">
+                    2,50
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Text
+                    textAlign="center"
+                    color="white"
+                    fontWeight="bold"
+                    fontSize={['6px', '9px']}
+                  >
+                    O jogador paga R$ 2.50 e recebe um bilhete com 4 milhares{' '}
+                    <br /> Caso alguma milhar seja sorteada o jogador recebe R$
+                    600,00 <br /> Podendo acumular chegando até R$ 10.000,00 <br/> 0000.57
+                  </Text>
+                </Flex>
+              </Flex>
+            </GridItem>
+
+            <GridItem colSpan={1}>
+              <Flex w="auto" direction="column" justify="center" gap="2">
+                <Text
+                  fontSize={['12px', '20px']}
+                  fontWeight="bold"
+                  textAlign="center"
+                  color="white "
+                  shadow="xl"
+                  border="1px solid"
+                  borderColor={useColorModeValue('green.800', 'green.500')}
+                  rounded="base"
+                >
+                  1234
+                </Text>
+                <Text
+                  fontSize={['12px', '20px']}
+                  fontWeight="bold"
+                  textAlign="center"
+                  color="white "
+                  shadow="xl"
+                  border="1px solid"
+                  borderColor={useColorModeValue('green.800', 'green.500')}
+                  rounded="base"
+                >
+                  1234
+                </Text>
+                <Text
+                   fontSize={['12px', '20px']}
+                  fontWeight="bold"
+                  textAlign="center"
+                  color="white "
+                  shadow="xl"
+                  border="1px solid"
+                  borderColor={useColorModeValue('green.800', 'green.500')}
+                  rounded="base"
+                >
+                  1234
+                </Text>
+                <Text
+                   fontSize={['12px', '20px']}
+                  fontWeight="bold"
+                  textAlign="center"
+                  color="white "
+                  shadow="xl"
+                  border="1px solid"
+                  borderColor={useColorModeValue('green.800', 'green.500')}
+                  rounded="base"
+                >
+                  1234
+                </Text>
+
+                <Text textAlign="center" fontWeight="bold" fontSize="12px">
+                  Data <br /> 12/03/2022
+                </Text>
+              </Flex>
+            </GridItem>
+          </Grid>
+          <Flex w="100%" bg="yellow">
+            <Text fontSize={['9px', '14px']} fontWeight="bold">
+              {' '}
+              COMPRANDO PIX SORTE VOCÊ ESTARÁ AJUDANDO FAMÍLIAS CARENTE
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </>
   );
 }

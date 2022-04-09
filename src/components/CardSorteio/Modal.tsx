@@ -8,8 +8,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
-  Text
+  useDisclosure
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import React from 'react';
@@ -47,26 +46,10 @@ export default function FormCard() {
           <ModalCloseButton />
           <ModalBody>
             <Flex justify="space-between" direction={['column', 'row']} gap="2">
-              <Flex>
-                <FormModal />
-              </Flex>
-
-              <Flex
-                direction="column"
-                w={['350px', '538px']}
-                h="190px"
-                bgImage="url('/pixdasorte.png')"
-                bgRepeat="no-repeat"
-              >
-                <Text fontSize="13px" fontWeight="bold" />
-              </Flex>
+              <FormModal />
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose} colorScheme="yellow" variant="solid">
-              Fechar
-            </Button>
-          </ModalFooter>
+          <ModalFooter />
         </ModalContent>
       </Modal>
     </>
