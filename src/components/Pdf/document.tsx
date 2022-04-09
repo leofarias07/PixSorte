@@ -52,7 +52,7 @@ export function PdfCards({ card }: DownloadPdfProps) {
       cardLeft: {
         width: '30%',
         height: '100%',
-        padding: 1,
+        padding: 3,
         backgroundColor: '#0d2818',
         display: 'flex',
         flexDirection: 'column',
@@ -62,14 +62,41 @@ export function PdfCards({ card }: DownloadPdfProps) {
       cardCenter: {
         width: '51%',
         height: '100%',
-        padding: 1,
-        backgroundColor: '#04471c'
+        padding: 3,
+        backgroundColor: '#04471c',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        textAlign: 'center'
+      },
+      price: {
+        fontSize: '13pt',
+        fontWeight: 'bold',
+        color: 'yellow',
+        padding: 3,
+        backgroundColor: '#0d2818'
       },
       cardRight: {
         width: '16%',
         height: '100%',
         padding: 1,
-        backgroundColor: '#04471c'
+        backgroundColor: '#04471c',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+      },
+      random_numbers: {
+        width: '100%',
+        flex: 1,
+        backgroundColor: 'white',
+        color: 'black',
+        fontSize: '15pt',
+        padding: 3,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
       },
       flexbox: {
         width: '100%',
@@ -77,7 +104,7 @@ export function PdfCards({ card }: DownloadPdfProps) {
         justifyContent: 'space-around',
         alignItems: 'center',
         flexDirection: 'row',
-        flexWrap: 'nowrap',
+        flexWrap: 'wrap',
         flex: 1
       },
       smallTitle: {
@@ -85,8 +112,19 @@ export function PdfCards({ card }: DownloadPdfProps) {
         fontSize: '10pt'
       },
       bigTitle: {
+        width: '100%',
         fontWeight: 'bold',
-        fontSize: '15pt'
+        fontSize: '20pt',
+        flex: 1
+      },
+      description: {
+        width: '100%',
+        fontSize: '8pt',
+        flex: 1
+      },
+      explanation: {
+        flex: 1,
+        fontSize: '6pt'
       },
       date: {
         backgroundColor: '#FFF',
@@ -125,14 +163,6 @@ export function PdfCards({ card }: DownloadPdfProps) {
     });
   }
 
-  // const buildCard = (dataCard: buildCardProps) => {
-  //   return (
-  //     <View key={dataCard?.index} style={styles?.section}>
-  //       <Text style={styles?.title}>{card?.title}</Text>
-  //     </View>
-  //   );
-  // };
-
   return (
     <Document title="Cartelas">
       {/*render a single page*/}
@@ -167,11 +197,33 @@ export function PdfCards({ card }: DownloadPdfProps) {
 
               {/* Center */}
               <View style={styles?.cardCenter}>
-                <Text>{card.unit_price}</Text>
+                <Text style={styles?.bigTitle}>{card.title}</Text>
+                <Text style={styles?.description}>
+                  Nosso sorteio é feito ao vivo no nosso instagram @pixsorte. As
+                  20:00 de segunda à sexta
+                </Text>
+                <View style={styles.flexbox}>
+                  <Text style={styles.price}>
+                    R${card.unit_price.toFixed(2)}
+                  </Text>
+                  <Text style={styles.explanation}>
+                    O jogador paga R$ 2.50 e recebe um bilhete com 4 milhares.
+                    Caso alguma milhar seja sorteada o jogador recebe R$ 600,00.
+                    Podendo acumular chegando até R$ 10.000,00
+                  </Text>
+                </View>
               </View>
 
               {/* Right */}
-              <View style={styles?.cardRight}></View>
+              <View style={styles?.cardRight}>
+                {values.map((number, index) => {
+                  return (
+                    <View key={index} style={styles?.random_numbers}>
+                      <Text>{number}</Text>
+                    </View>
+                  );
+                })}
+              </View>
             </View>
           );
         })}
