@@ -31,7 +31,7 @@ export default function BasicStatistics({ cards, setCards }: CardArray) {
             .map(card => (
               <StatsCard
                 key={card.card_id}
-                data={card.date_sort}
+                date={card.date_sort}
                 card={card}
                 setCards={setCards}
               />
