@@ -28,7 +28,7 @@ export default function FormModal() {
       .post('cards/generate', data)
       .then(response => {
         alert('Cartelas Adicionadas');
-        window.location.href = '/dashboarduser';
+        window.location.href = '/dashboard';
       })
       .catch(error => {
         alert(error);

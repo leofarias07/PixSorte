@@ -27,10 +27,18 @@ import { CardsProps } from './index';
 import api from '../../services/api';
 
 interface StatsCardProps {
-  data: Date;
+  date: Date;
   card: CardsProps;
   setCards: (any) => void;
 }
+
+import dynamic from 'next/dynamic';
+
+const DownloadPdf = dynamic(() => import('../Pdf') as any, {
+  ssr: false,
+  loading: () => <p>Carregando ...</p>
+});
+
 export function StatsCard(props: StatsCardProps) {
   const [cardFound, setCardFound] = useState([]);
 
@@ -58,15 +66,15 @@ export function StatsCard(props: StatsCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { data, card } = props;
-  const date = new Date(data);
+  const { date, card } = props;
+  const newdate = new Date(date);
 
   async function Delete(card_id: string) {
     api
       .delete(`cards/delete/${card_id}`)
       .then(response => {
         alert('Dados Foram deletados');
-        window.location.href = '/dashboarduser';
+        window.location.href = '/dashboard';
       })
       .catch(error => {
         alert(error);
@@ -85,11 +93,25 @@ export function StatsCard(props: StatsCardProps) {
       <Stack spacing="4">
         <StatLabel fontWeight="medium" isTruncated color="white">
           <Text fontSize="5xl" align="center">
-            <Icon as={MdDateRange} fontSize="4xl" /> {date.toLocaleDateString()}
+            <Icon as={MdDateRange} fontSize="4xl" />{' '}
+            {newdate.toLocaleDateString()}
           </Text>
         </StatLabel>
         <StatLabel fontWeight="medium" isTruncated color="white">
           <Text fontSize="2xl">Premio: {card.status || 'Pendente'}</Text>
+        </StatLabel>
+        <StatLabel>
+          <Text
+            fontSize="2xl"
+            color="white"
+            background="green"
+            padding={1}
+            textAlign="center"
+            borderRadius="md"
+            margin={0.5}
+          >
+            <DownloadPdf card={card} />
+          </Text>
         </StatLabel>
       </Stack>
       <Flex>
@@ -106,11 +128,12 @@ export function StatsCard(props: StatsCardProps) {
           >
             Saiba Mais
           </Button>
+
           <Modal isCentered isOpen={isOpen} onClose={onClose} size="3xl">
             {overlay}
             <ModalContent bg="green.900">
               <ModalHeader color="white" fontSize="4xl" textAlign="center">
-                Sorteio: {date.toLocaleDateString()}
+                Sorteio: {newdate.toLocaleDateString()}
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
