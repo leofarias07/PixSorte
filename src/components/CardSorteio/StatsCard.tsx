@@ -25,19 +25,13 @@ import React, { useEffect, useState } from 'react';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
 import api from '../../services/api';
+import { DownloadPdf } from '../DonwloadPdf';
 
 interface StatsCardProps {
   date: Date;
   card: CardsProps;
   setCards: (any) => void;
 }
-
-import dynamic from 'next/dynamic';
-
-const DownloadPdf = dynamic(() => import('../Pdf') as any, {
-  ssr: false,
-  loading: () => <p>Carregando ...</p>
-});
 
 export function StatsCard(props: StatsCardProps) {
   const [cardFound, setCardFound] = useState([]);
