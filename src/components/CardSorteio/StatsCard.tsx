@@ -22,21 +22,16 @@ import {
 } from '@chakra-ui/react';
 import { MdDateRange } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
 import apicards from '../../services/apicards';
+import { DownloadPdf } from '../DonwloadPdf';
 
 interface StatsCardProps {
   date: Date;
   card: CardsProps;
   setCards: (any) => void;
 }
-
-const DownloadPdf = dynamic(() => import('../Pdf') as any, {
-  ssr: false,
-  loading: () => <p>Carregando ...</p>
-});
 
 export function StatsCard(props: StatsCardProps) {
   const [cardFound, setCardFound] = useState([]);
