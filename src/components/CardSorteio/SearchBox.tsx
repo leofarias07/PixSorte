@@ -2,7 +2,7 @@
 import { Flex, Icon, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import api from '../../services/api';
+import apicards from '../../services/apicards';
 
 interface SearchBoxProps {
   values: Array<number[]>;
@@ -29,7 +29,7 @@ export function SearchBox(props: SearchBoxProps) {
       numberFound[0]?.push(+numberSorted);
       props.setCardFound(numberFound[0]);
 
-      api.put(`cards/update/${props.card_id}`, {
+      apicards.put(`cards/update/${props.card_id}`, {
         new_status: 'Sorteado',
         value_sorted: numberFound[0][2]
       });
@@ -39,7 +39,7 @@ export function SearchBox(props: SearchBoxProps) {
     } else {
       props.setCardFound([]);
 
-      api.put(`cards/update/${props.card_id}`, {
+      apicards.put(`cards/update/${props.card_id}`, {
         new_status: 'Acumulado'
       });
 

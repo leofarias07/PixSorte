@@ -22,17 +22,16 @@ import {
 } from '@chakra-ui/react';
 import { MdDateRange } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
-import api from '../../services/api';
+import apicards from '../../services/apicards';
 
 interface StatsCardProps {
   date: Date;
   card: CardsProps;
   setCards: (any) => void;
 }
-
-import dynamic from 'next/dynamic';
 
 const DownloadPdf = dynamic(() => import('../Pdf') as any, {
   ssr: false,
@@ -70,9 +69,9 @@ export function StatsCard(props: StatsCardProps) {
   const newdate = new Date(date);
 
   async function Delete(card_id: string) {
-    api
+    apicards
       .delete(`cards/delete/${card_id}`)
-      .then(response => {
+      .then(() => {
         alert('Dados Foram deletados');
         window.location.href = '/dashboard';
       })

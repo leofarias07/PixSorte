@@ -12,7 +12,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import api from '../../services/api';
+import apicards from '../../services/apicards';
 
 export default function FormModal() {
   const [title, setTitle] = useState('');
@@ -25,7 +25,7 @@ export default function FormModal() {
 
   async function HandleSubmit() {
     const data = {
-      title: title,
+      title,
       number_of_cards: +numberOfCards,
       unit_price: +unitPrice,
       min: +min,
@@ -35,9 +35,9 @@ export default function FormModal() {
       date_sort: date
     };
 
-    api
+    apicards
       .post('cards/generate', data)
-      .then(response => {
+      .then(() => {
         alert('Cartelas Adicionadas');
         window.location.href = '/dashboard';
       })
@@ -196,7 +196,8 @@ export default function FormModal() {
                   >
                     O jogador paga R$ 2.50 e recebe um bilhete com 4 milhares{' '}
                     <br /> Caso alguma milhar seja sorteada o jogador recebe R$
-                    600,00 <br /> Podendo acumular chegando até R$ 10.000,00 <br/> 0000.57
+                    600,00 <br /> Podendo acumular chegando até R$ 10.000,00{' '}
+                    <br /> 0000.57
                   </Text>
                 </Flex>
               </Flex>
@@ -229,7 +230,7 @@ export default function FormModal() {
                   1234
                 </Text>
                 <Text
-                   fontSize={['12px', '20px']}
+                  fontSize={['12px', '20px']}
                   fontWeight="bold"
                   textAlign="center"
                   color="white "
@@ -241,7 +242,7 @@ export default function FormModal() {
                   1234
                 </Text>
                 <Text
-                   fontSize={['12px', '20px']}
+                  fontSize={['12px', '20px']}
                   fontWeight="bold"
                   textAlign="center"
                   color="white "
