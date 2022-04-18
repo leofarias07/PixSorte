@@ -13,7 +13,7 @@ export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: 'http://localhost:3333/api',
     headers: {
       Authorization: `Bearer ${cookies['pixsorte.token']}`
     }
@@ -33,7 +33,7 @@ export function setupAPIClient(ctx = undefined) {
           if (!isRefreshing) {
             isRefreshing = true;
             api
-              .post('/refresh', {
+              .post('users/me/refresh', {
                 refreshToken
               })
               .then(response => {
