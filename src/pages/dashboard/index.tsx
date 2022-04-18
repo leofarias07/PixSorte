@@ -6,8 +6,6 @@ import { Header } from '../../components/Header';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useCan } from '../../hooks/useCan';
 import { setupAPIClient } from '../../services/api';
-
-import apicards from '../../services/apicards';
 import { api } from '../../services/apiClient';
 import { withSSAuth } from '../../utils/withSSRAuth';
 
@@ -23,7 +21,7 @@ export default function DashboardUser() {
 
   useEffect(() => {
     api
-      .get('/me')
+      .get('users/me')
       .then(response => console.log(response))
       .catch(error => console.log(error));
   }, []);
@@ -34,7 +32,7 @@ export default function DashboardUser() {
         'user-uuid': '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d'
       }
     };
-    apicards
+    api
       .get('cards', config)
       .then(response => {
         setCards(response.data);
@@ -63,9 +61,7 @@ export default function DashboardUser() {
 }
 export const getServerSideProps = withSSAuth(async ctx => {
   const apiClient = setupAPIClient(ctx);
-  const response = await apiClient.get('/me');
-
-  console.log('response:', response.data);
+  const response = await apiClient.get('/users/me');
 
   return {
     props: {}

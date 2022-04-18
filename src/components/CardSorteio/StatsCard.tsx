@@ -24,8 +24,9 @@ import { MdDateRange } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
-import apicards from '../../services/apicards';
+
 import { DownloadPdf } from '../DonwloadPdf';
+import { api } from '../../services/apiClient';
 
 interface StatsCardProps {
   date: Date;
@@ -64,7 +65,7 @@ export function StatsCard(props: StatsCardProps) {
   const newdate = new Date(date);
 
   async function Delete(card_id: string) {
-    apicards
+    api
       .delete(`cards/delete/${card_id}`)
       .then(() => {
         alert('Dados Foram deletados');
