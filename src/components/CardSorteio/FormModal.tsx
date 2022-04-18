@@ -12,7 +12,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import apicards from '../../services/apicards';
+import { api } from '../../services/apiClient';
 
 export default function FormModal() {
   const [title, setTitle] = useState('');
@@ -35,7 +35,7 @@ export default function FormModal() {
       date_sort: date
     };
 
-    apicards
+    api
       .post('cards/generate', data)
       .then(() => {
         alert('Cartelas Adicionadas');
