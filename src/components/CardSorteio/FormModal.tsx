@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
+  CircularProgress,
   Flex,
   FormControl,
   FormLabel,
@@ -8,13 +10,20 @@ import {
   GridItem,
   Image,
   Input,
+  Progress,
+  Spinner,
   Text,
   useColorModeValue
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { api } from '../../services/apiClient';
 
-export default function FormModal() {
+type FormModalProps = {
+  onClose: () => any;
+};
+
+export default function FormModal(props: FormModalProps) {
   const [title, setTitle] = useState('');
   const [numberOfCards, setNumberOfCards] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
@@ -34,16 +43,34 @@ export default function FormModal() {
       client_id: '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d',
       date_sort: date
     };
-
-    api
-      .post('cards/generate', data)
-      .then(() => {
-        alert('Cartelas Adicionadas');
-        window.location.href = '/dashboard';
-      })
-      .catch(error => {
-        alert(error);
+    const generateCard = async () =>
+      api.post('cards/generate', data).then(() => {
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1000);
       });
+    toast.promise(generateCard, {
+      pending: {
+        render() {
+          props.onClose();
+          return 'Gerando Cartelas';
+        },
+        icon: <CircularProgress size="20px" isIndeterminate color="green.300" />
+      },
+      success: {
+        render() {
+          return `Cartelas geradas`;
+        },
+        // other options
+        icon: '🟢'
+      },
+      error: {
+        render(error) {
+          // When the promise reject, data will contains the error
+          return `Erro: ${error.data.response.data}`;
+        }
+      }
+    });
   }
 
   return (

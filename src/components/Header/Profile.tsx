@@ -52,7 +52,9 @@ export function Profile({ showProfileData = true }: ProfileProps) {
               {showProfileData && (
                 <Flex alignItems="center" justify="center" gap="2">
                   <BiUser size={20} color="white" />
-                  <Text fontSize="22" color="white">Leonardo Farias</Text>
+                  <Text fontSize="22" color="white">
+                    Leonardo Farias
+                  </Text>
                 </Flex>
               )}
             </PopoverHeader>
@@ -66,7 +68,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
               </Flex>
             </PopoverBody>
             <Button gap="2" onClick={signOut} colorScheme="red">
-              <BiLogOut size={20} /> SAIR
+              <BiLogOut size={20} /> Sair da Plataforma
             </Button>
           </PopoverContent>
         </Portal>

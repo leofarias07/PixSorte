@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useState, useEffect, useContext } from 'react';
 import CardSorteio from '../../components/CardSorteio';
 import { Header } from '../../components/Header';
@@ -53,7 +53,19 @@ export default function DashboardUser() {
           minChildWidth="320px"
           alignItems="flex-start"
         >
-          <CardSorteio cards={cards} setCards={setCallApi} />
+          {cards.length === 0 ? (
+            <Flex h="100vh" w="100%" justify="center" alignItems="center">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="green.500"
+                size="xl"
+              />
+            </Flex>
+          ) : (
+            <CardSorteio cards={cards} setCards={setCallApi} />
+          )}
         </SimpleGrid>
       </Flex>
     </Flex>

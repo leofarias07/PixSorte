@@ -1,7 +1,9 @@
+/* eslint-disable import/no-cycle */
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import Router from 'next/router';
 // eslint-disable-next-line import/no-cycle
+import { toast, Zoom } from 'react-toastify';
 import { api } from '../services/apiClient';
 
 type User = {
@@ -79,8 +81,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
       Router.push('dashboard');
+      toast.success('Logado com Sucesso!', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: 'colored'
+      });
     } catch (err) {
-      alert('Usuario ou senha invalidos');
+      toast.error('Usuario ou senha invalidos!', {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'colored'
+      });
     }
   }
 

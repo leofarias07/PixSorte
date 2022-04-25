@@ -46,7 +46,7 @@ export default function FormCard() {
           <ModalCloseButton />
           <ModalBody>
             <Flex justify="space-between" direction={['column', 'row']} gap="2">
-              <FormModal />
+              <FormModal onClose={onClose} />
             </Flex>
           </ModalBody>
           <ModalFooter />

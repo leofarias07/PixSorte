@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/react';
 import { MdDateRange } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { SearchBox } from './SearchBox';
 import { CardsProps } from './index';
 
@@ -68,8 +69,13 @@ export function StatsCard(props: StatsCardProps) {
     api
       .delete(`cards/delete/${card_id}`)
       .then(() => {
-        alert('Dados Foram deletados');
-        window.location.href = '/dashboard';
+        toast.success('Sorteio deletado!', {
+          position: toast.POSITION.TOP_RIGHT,
+          theme: 'colored'
+        });
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1000);
       })
       .catch(error => {
         alert(error);
