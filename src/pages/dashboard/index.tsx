@@ -12,7 +12,7 @@ import { withSSAuth } from '../../utils/withSSRAuth';
 export default function DashboardUser() {
   const [cards, setCards] = useState([]);
   const [callApi, setCallApi] = useState(0);
-
+  const [isLoading, setIsloading] = useState(true);
   const { user, isAuthenticated } = useContext(AuthContext);
 
   const userCanSeeMetrics = useCan({
@@ -29,7 +29,7 @@ export default function DashboardUser() {
   useEffect(() => {
     const config = {
       headers: {
-        'user-uuid': '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d'
+        'user-uuid': localStorage.getItem('user_uuid')
       }
     };
     api
@@ -40,6 +40,9 @@ export default function DashboardUser() {
       .catch(err => {
         // eslint-disable-next-line no-alert
         alert('ops! ocorreu um erro' + err);
+      })
+      .finally(() => {
+        setIsloading(false);
       });
   }, [callApi]);
 
@@ -53,19 +56,11 @@ export default function DashboardUser() {
           minChildWidth="320px"
           alignItems="flex-start"
         >
-          {cards.length === 0 ? (
-            <Flex h="100vh" w="100%" justify="center" alignItems="center">
-              <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="green.500"
-                size="xl"
-              />
-            </Flex>
-          ) : (
-            <CardSorteio cards={cards} setCards={setCallApi} />
-          )}
+          <CardSorteio
+            isLoading={isLoading}
+            cards={cards}
+            setCards={setCallApi}
+          />
         </SimpleGrid>
       </Flex>
     </Flex>
@@ -73,7 +68,7 @@ export default function DashboardUser() {
 }
 export const getServerSideProps = withSSAuth(async ctx => {
   const apiClient = setupAPIClient(ctx);
-  const response = await apiClient.get('/users/me');
+  await apiClient.get('/users/me');
 
   return {
     props: {}

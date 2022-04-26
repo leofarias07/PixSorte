@@ -1,10 +1,15 @@
-import { Box, chakra, SimpleGrid } from '@chakra-ui/react';
+/* eslint-disable no-nested-ternary */
+import { Box, chakra, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 // eslint-disable-next-line import/no-cycle
 import { CardArray } from './index';
 // eslint-disable-next-line import/no-cycle
 import { StatsCard } from './StatsCard';
 
-export default function BasicStatistics({ cards, setCards }: CardArray) {
+export default function BasicStatistics({
+  cards,
+  setCards,
+  isLoading
+}: CardArray) {
   return (
     <Box
       minW={['330px', '6xl']}
@@ -22,21 +27,33 @@ export default function BasicStatistics({ cards, setCards }: CardArray) {
       >
         Sorteios
       </chakra.h1>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
-        {cards &&
-          cards
-            .sort((a, b) => {
-              return +new Date(b.date_sort) - +new Date(a.date_sort);
-            })
-            .map(card => (
-              <StatsCard
-                key={card.card_id}
-                date={card.date_sort}
-                card={card}
-                setCards={setCards}
-              />
-            ))}
-      </SimpleGrid>
+      {isLoading ? (
+        <Flex h="100vh" w="100%" justify="center" alignItems="center">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="green.500"
+            size="xl"
+          />
+        </Flex>
+      ) : cards.length === 0 ? (
+        <p>Crie seu primeiro sorteio</p>
+      ) : (
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
+          {cards &&
+            cards
+              .sort((a, b) => +new Date(b.date_sort) - +new Date(a.date_sort))
+              .map(card => (
+                <StatsCard
+                  key={card.card_id}
+                  date={card.date_sort}
+                  card={card}
+                  setCards={setCards}
+                />
+              ))}
+        </SimpleGrid>
+      )}
     </Box>
   );
 }

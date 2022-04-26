@@ -25,6 +25,7 @@ export type CardsProps = {
 export type CardArray = {
   cards: CardsProps[];
   setCards: (any) => void;
+  isLoading: boolean;
 };
 
 export default function CardSoteio(props: CardArray) {
@@ -37,7 +38,11 @@ export default function CardSoteio(props: CardArray) {
           <FormCard />
         </Box>
       </Flex>
-      <BasicStatistics cards={props.cards} setCards={props.setCards} />
+      <BasicStatistics
+        isLoading={props.isLoading}
+        cards={props.cards}
+        setCards={props.setCards}
+      />
     </Box>
   );
 }
