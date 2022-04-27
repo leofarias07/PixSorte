@@ -45,7 +45,8 @@ export function StatsCard(props: StatsCardProps) {
     setCardThatContainsSortedNumber(
       // eslint-disable-next-line react/destructuring-assignment
       props.card.values_sorted.filter(singlecard =>
-        singlecard.includes(props.card.sort_result)
+        // eslint-disable-next-line react/destructuring-assignment
+        singlecard?.includes(props.card.sort_result)
       )
     );
   }, [cardFound]);
@@ -218,7 +219,6 @@ export function StatsCard(props: StatsCardProps) {
                 >
                   Delete
                 </Button>
-                <Button onClick={onClose}>Close</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>

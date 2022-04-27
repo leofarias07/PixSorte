@@ -40,7 +40,7 @@ export default function FormModal(props: FormModalProps) {
       min: +min,
       max: +max,
       amount_random_number: +amountRandomNumber,
-      client_id: '33a3d3f5-c5e5-4cee-a19c-072c64e15b0d',
+      client_id: localStorage.getItem('user_uuid'),
       date_sort: date
     };
     const generateCard = async () =>

@@ -13,9 +13,9 @@ export function useCan({ permissions, roles }: UseCanParams) {
     return false;
   }
   if (permissions?.length > 0) {
-    const hasAllPermissions = permissions.every(permissions => {
-      return user.permissions.includes(permissions);
-    });
+    const hasAllPermissions = permissions.every(permissions =>
+      user.permissions.includes(permissions)
+    );
 
     if (!hasAllPermissions) {
       return false;
@@ -23,9 +23,7 @@ export function useCan({ permissions, roles }: UseCanParams) {
   }
 
   if (roles?.length > 0) {
-    const hasAllRoles = permissions.some(roles => {
-      return user.roles.includes(roles);
-    });
+    const hasAllRoles = permissions.some(roles => user.roles.includes(roles));
 
     if (!hasAllRoles) {
       return false;

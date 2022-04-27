@@ -3,7 +3,7 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import Router from 'next/router';
 // eslint-disable-next-line import/no-cycle
-import { toast, Zoom } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { api } from '../services/apiClient';
 
 type User = {
@@ -63,7 +63,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password
       });
 
-      const { token, refreshToken, permissions, roles } = response.data;
+      const { token, refreshToken, permissions, roles, userUuid } =
+        response.data;
+
+      localStorage.setItem('user_uuid', userUuid);
+
       setCookie(undefined, 'pixsorte.token', token, {
         maxAge: 60 * 60 * 24 * 30,
         path: '/'
