@@ -1,5 +1,15 @@
 /* eslint-disable no-nested-ternary */
-import { Box, chakra, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  chakra,
+  Flex,
+  SimpleGrid,
+  Spinner
+} from '@chakra-ui/react';
 // eslint-disable-next-line import/no-cycle
 import { CardArray } from './index';
 // eslint-disable-next-line import/no-cycle
@@ -38,7 +48,23 @@ export default function BasicStatistics({
           />
         </Flex>
       ) : cards.length === 0 ? (
-        <p>Crie seu primeiro sorteio</p>
+        <Alert
+          status="success"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          height="200px"
+          bg="green.800"
+        >
+          <AlertTitle mt={4} mb={1} fontSize="4xl">
+            Seja Bem Vindo
+          </AlertTitle>
+          <AlertDescription maxWidth="sm" fontSize="2xl" mt="2">
+            Voçê ainda não tem nenhum sorteio, clique em novo sorteio.
+          </AlertDescription>
+        </Alert>
       ) : (
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
           {cards &&

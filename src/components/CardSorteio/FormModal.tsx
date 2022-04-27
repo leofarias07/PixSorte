@@ -10,8 +10,6 @@ import {
   GridItem,
   Image,
   Input,
-  Progress,
-  Spinner,
   Text,
   useColorModeValue
 } from '@chakra-ui/react';
