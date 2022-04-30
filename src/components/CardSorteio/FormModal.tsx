@@ -30,6 +30,14 @@ export default function FormModal(props: FormModalProps) {
   const [date, setDate] = useState('');
   const [amountRandomNumber, setAmountRandomNumber] = useState('');
 
+  type HandleSubmitErrorProps = {
+    data: {
+      response: {
+        data: string;
+      };
+    };
+  };
+
   async function HandleSubmit() {
     const data = {
       title,
@@ -63,7 +71,7 @@ export default function FormModal(props: FormModalProps) {
         icon: '🟢'
       },
       error: {
-        render(error) {
+        render(error: HandleSubmitErrorProps) {
           // When the promise reject, data will contains the error
           return `Erro: ${error.data.response.data}`;
         }
@@ -158,6 +166,7 @@ export default function FormModal(props: FormModalProps) {
                 leftIcon={<AddIcon />}
                 colorScheme="yellow"
                 variant="solid"
+                // eslint-disable-next-line react/jsx-no-bind
                 onClick={HandleSubmit}
               >
                 Gerar Cartelas

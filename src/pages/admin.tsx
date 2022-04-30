@@ -4,7 +4,7 @@ import { Header } from '../components/Header';
 import { SideBar } from '../components/Sidebar';
 import theme from '../styles/theme';
 
-const Chart = dynamic(() => import('react-apexcharts'), {
+const Chart: any = dynamic(() => import('react-apexcharts'), {
   ssr: false
 });
 

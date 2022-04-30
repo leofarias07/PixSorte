@@ -9,11 +9,16 @@ import { AuthTokenError } from './errors/AuthTokenError';
 let isRefreshing = false;
 let failedRequestsQueue = [];
 
+const apiUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3333/api/'
+    : 'https://pixsorteapi.herokuapp.com';
+
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: 'http://localhost:3333/api/',
+    baseURL: apiUrl,
     headers: {
       Authorization: `Bearer ${cookies['pixsorte.token']}`
     }

@@ -10,6 +10,8 @@ type User = {
   email: string;
   permissions: string[];
   roles: string[];
+  userName: string;
+  enterpriseName: string;
 };
 
 type SignInCredentials = {
@@ -27,11 +29,26 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
+type LoginProps = {
+  data: {
+    token: string;
+    refreshToken: string;
+    permissions: string[];
+    roles: string[];
+    userUuid: string;
+    userEmail: string;
+    userName: string;
+    enterpriseName: string;
+  };
+};
+
 export const AuthContext = createContext({} as AuthContextData);
 
 export function signOut() {
   destroyCookie(undefined, 'pixsorte.token');
   destroyCookie(undefined, 'pixsorte.refreshToken');
+
+  localStorage.removeItem('user_uuid');
 
   Router.push('/');
 }
@@ -47,8 +64,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api
         .get('/users/me')
         .then(response => {
-          const { email, permissions, roles } = response.data;
-          setUser({ email, permissions, roles });
+          const { email, permissions, roles, userName, enterpriseName }: User =
+            response.data;
+          setUser({ email, permissions, roles, userName, enterpriseName });
         })
         .catch(() => {
           signOut();
@@ -58,13 +76,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
-      const response = await api.post('users/login', {
+      const response: LoginProps = await api.post('users/login', {
         email,
         password
       });
 
-      const { token, refreshToken, permissions, roles, userUuid } =
-        response.data;
+      const {
+        token,
+        refreshToken,
+        permissions,
+        roles,
+        userUuid,
+        userName,
+        enterpriseName
+      } = response.data;
 
       localStorage.setItem('user_uuid', userUuid);
 
@@ -79,7 +104,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser({
         email,
         permissions,
-        roles
+        roles,
+        userName,
+        enterpriseName
       });
 
       // eslint-disable-next-line @typescript-eslint/dot-notation

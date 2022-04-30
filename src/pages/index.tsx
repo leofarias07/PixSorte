@@ -49,7 +49,7 @@ export default function SignIn() {
           <Logo />
         </Flex>
 
-        <Stack spacing="4">
+        <Stack spacing="4" color="white">
           <Input
             name="email"
             type="email"
@@ -57,6 +57,7 @@ export default function SignIn() {
             _placeholder={{ color: 'green.500' }}
             error={formState.errors.email}
             {...register('email')}
+            isRequired
           />
           <Input
             name="password"
@@ -65,6 +66,7 @@ export default function SignIn() {
             _placeholder={{ color: 'green.500' }}
             error={formState.errors.password}
             {...register('password')}
+            isRequired
           />
         </Stack>
 
@@ -82,8 +84,6 @@ export default function SignIn() {
   );
 }
 
-export const getServerSideProps = withSSRGuest(async ctx => {
-  return {
-    props: {}
-  };
-});
+export const getServerSideProps = withSSRGuest(async () => ({
+  props: {}
+}));

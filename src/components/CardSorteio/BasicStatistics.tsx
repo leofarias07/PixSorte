@@ -2,7 +2,6 @@
 import {
   Alert,
   AlertDescription,
-  AlertIcon,
   AlertTitle,
   Box,
   chakra,
@@ -57,8 +56,9 @@ export default function BasicStatistics({
           textAlign="center"
           height="200px"
           bg="green.800"
+          color="white"
         >
-          <AlertTitle mt={4} mb={1} fontSize="4xl">
+          <AlertTitle mt={4} mb={5} fontSize="4xl">
             Seja Bem Vindo
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="2xl" mt="2">
