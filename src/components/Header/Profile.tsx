@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { BiLogOut, BiUser } from 'react-icons/bi';
-import { AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineMail, AiFillHome } from 'react-icons/ai';
 import { AuthContext, signOut } from '../../contexts/AuthContext';
 
 interface ProfileProps {
@@ -24,6 +24,7 @@ interface ProfileProps {
 }
 export function Profile({ showProfileData = true }: ProfileProps) {
   const { user } = useContext(AuthContext);
+
   return (
     <Flex align="center">
       <Popover>
@@ -36,13 +37,9 @@ export function Profile({ showProfileData = true }: ProfileProps) {
             rounded="full"
             _hover={{ bg: 'green.600' }}
             _focus={{ boxShadow: 'outline' }}
+            cursor="pointer"
           >
-            <Avatar
-              boxShadow="10px solid"
-              size="md"
-              name="Leonardo Farias"
-              src="https://github.com/leofarias07.png"
-            />
+            <Avatar boxShadow="10px solid" size="md" name={user?.userName} />
           </Box>
         </PopoverTrigger>
         <Portal>
@@ -53,17 +50,33 @@ export function Profile({ showProfileData = true }: ProfileProps) {
                 <Flex alignItems="center" justify="center" gap="2">
                   <BiUser size={20} color="white" />
                   <Text fontSize="22" color="white">
-                    Leonardo Farias
+                    {user?.userName}
                   </Text>
                 </Flex>
               )}
             </PopoverHeader>
             <PopoverCloseButton />
             <PopoverBody>
-              <Flex alignItems="center" justify="center" gap="2">
+              <Flex
+                alignItems="center"
+                justify="center"
+                gap="2"
+                direction="row"
+              >
                 <AiOutlineMail size={20} color="white" />
                 <Text color="white" fontSize="20" textAlign="center">
-                  leo.farias.05@gmail.com
+                  {user?.email}
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="center"
+                justify="center"
+                gap="2"
+                direction="row"
+              >
+                <AiFillHome size={20} color="white" />
+                <Text color="white" fontSize="20" textAlign="center">
+                  {user?.enterpriseName}
                 </Text>
               </Flex>
             </PopoverBody>
