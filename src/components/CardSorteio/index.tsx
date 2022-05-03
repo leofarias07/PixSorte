@@ -20,6 +20,7 @@ export type CardsProps = {
   date_sort: Date;
   status: string | null;
   sort_result: number | null;
+  created_at: Date;
 };
 
 export type CardArray = {

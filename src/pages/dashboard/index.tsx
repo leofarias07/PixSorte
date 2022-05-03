@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template */
-import { Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
+import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { useState, useEffect, useContext } from 'react';
+
 import CardSorteio from '../../components/CardSorteio';
 import { Header } from '../../components/Header';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -8,6 +9,7 @@ import { useCan } from '../../hooks/useCan';
 import { setupAPIClient } from '../../services/api';
 import { api } from '../../services/apiClient';
 import { withSSAuth } from '../../utils/withSSRAuth';
+
 
 export default function DashboardUser() {
   const [cards, setCards] = useState([]);

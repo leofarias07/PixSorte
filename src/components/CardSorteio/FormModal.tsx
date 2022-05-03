@@ -49,34 +49,35 @@ export default function FormModal(props: FormModalProps) {
       client_id: localStorage.getItem('user_uuid'),
       date_sort: date
     };
-    const generateCard = async () =>
-      api.post('cards/generate', data).then(() => {
-        setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 1000);
-      });
-    toast.promise(generateCard, {
-      pending: {
-        render() {
-          props.onClose();
-          return 'Gerando Cartelas';
-        },
-        icon: <CircularProgress size="20px" isIndeterminate color="green.300" />
-      },
-      success: {
-        render() {
-          return `Cartelas geradas`;
-        },
-        // other options
-        icon: '🟢'
-      },
-      error: {
-        render(error: HandleSubmitErrorProps) {
-          // When the promise reject, data will contains the error
-          return `Erro: ${error.data.response.data}`;
-        }
-      }
-    });
+    console.log(data.date_sort);
+    // const generateCard = async () =>
+    //   api.post('cards/generate', data).then(() => {
+    //     setTimeout(() => {
+    //       window.location.href = '/dashboard';
+    //     }, 1000);
+    //   });
+    // toast.promise(generateCard, {
+    //   pending: {
+    //     render() {
+    //       props.onClose();
+    //       return 'Gerando Cartelas';
+    //     },
+    //     icon: <CircularProgress size="20px" isIndeterminate color="green.300" />
+    //   },
+    //   success: {
+    //     render() {
+    //       return `Cartelas geradas`;
+    //     },
+    //     // other options
+    //     icon: '🟢'
+    //   },
+    //   error: {
+    //     render(error: HandleSubmitErrorProps) {
+    //       // When the promise reject, data will contains the error
+    //       return `Erro: ${error.data.response.data}`;
+    //     }
+    //   }
+    // });
   }
 
   return (

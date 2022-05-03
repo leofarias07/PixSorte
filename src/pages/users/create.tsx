@@ -27,7 +27,9 @@ import { Input } from '../../components/Form/Input';
 import { Header } from '../../components/Header';
 
 import { SideBar } from '../../components/Sidebar';
+import { setupAPIClient } from '../../services/api';
 import { api } from '../../services/apiClient';
+import { withSSAuth } from '../../utils/withSSRAuth';
 
 type ToastError = {
   data: {
@@ -224,3 +226,17 @@ export default function CreateUser() {
     </Box>
   );
 }
+export const getServerSideProps = withSSAuth(
+  async ctx => {
+    const apiClient = setupAPIClient(ctx);
+    await apiClient.get('/users/me');
+
+    return {
+      props: {}
+    };
+  },
+  {
+    permissions: ['sort.create'],
+    roles: ['admin']
+  }
+);

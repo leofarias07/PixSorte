@@ -2,7 +2,9 @@ import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 import { Header } from '../components/Header';
 import { SideBar } from '../components/Sidebar';
+import { setupAPIClient } from '../services/api';
 import theme from '../styles/theme';
+import { withSSAuth } from '../utils/withSSRAuth';
 
 const Chart: any = dynamic(() => import('react-apexcharts'), {
   ssr: false
@@ -26,7 +28,7 @@ const options = {
   }
 };
 const series = [{ name: 'series1', data: [10, 20, 10, 34, 56, 3] }];
-export default function Dashboard() {
+export default function Admin() {
   return (
     <Flex direction="column" h="100vh">
       <Header />
@@ -56,3 +58,18 @@ export default function Dashboard() {
     </Flex>
   );
 }
+
+export const getServerSideProps = withSSAuth(
+  async ctx => {
+    const apiClient = setupAPIClient(ctx);
+    await apiClient.get('/users/me');
+
+    return {
+      props: {}
+    };
+  },
+  {
+    permissions: ['sort.create'],
+    roles: ['admin']
+  }
+);

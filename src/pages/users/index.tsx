@@ -19,6 +19,8 @@ import { RiAddLine } from 'react-icons/ri';
 import { Header } from '../../components/Header';
 import { Pagination } from '../../components/Pagination';
 import { SideBar } from '../../components/Sidebar';
+import { setupAPIClient } from '../../services/api';
+import { withSSAuth } from '../../utils/withSSRAuth';
 
 export default function UserList() {
   const isWideVersion = useBreakpointValue({
@@ -85,3 +87,17 @@ export default function UserList() {
     </Box>
   );
 }
+export const getServerSideProps = withSSAuth(
+  async ctx => {
+    const apiClient = setupAPIClient(ctx);
+    await apiClient.get('/users/me');
+
+    return {
+      props: {}
+    };
+  },
+  {
+    permissions: ['sort.create'],
+    roles: ['admin']
+  }
+);

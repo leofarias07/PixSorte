@@ -111,7 +111,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // eslint-disable-next-line @typescript-eslint/dot-notation
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
-      Router.push('dashboard');
+      if (roles.includes('admin')) {
+        Router.push('/admin');
+      } else {
+        Router.push('dashboard');
+      }
       toast.success('Logado com Sucesso!', {
         position: toast.POSITION.TOP_RIGHT,
         theme: 'colored'

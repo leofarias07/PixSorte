@@ -64,7 +64,18 @@ export function StatsCard(props: StatsCardProps) {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { date, card } = props;
-  const newdate = new Date(date);
+  const newDate = date
+    .toString()
+    .split('-')
+    .reverse()
+    .map((value, index) => {
+      if (index === 0) {
+        return `${value.split('').slice(0, 2).join('')}`;
+      }
+      return value;
+    })
+    .join('/');
+
   async function Delete(card_id: string) {
     api
       .delete(`cards/delete/${card_id}`)
@@ -97,18 +108,7 @@ export function StatsCard(props: StatsCardProps) {
       <Stack spacing="4">
         <StatLabel fontWeight="medium" isTruncated color="white">
           <Text fontSize="5xl" align="center">
-            <Icon as={MdDateRange} fontSize="4xl" />{' '}
-            {newdate
-              .toLocaleDateString()
-              .split('/')
-              .map((value, index) => {
-                if (index === 0) {
-                  const newDay = (+value + 1).toString().padStart(2, '0');
-                  return newDay;
-                }
-                return value;
-              })
-              .join('/')}
+            <Icon as={MdDateRange} fontSize="4xl" /> {newDate}
           </Text>
         </StatLabel>
         <StatLabel fontWeight="medium" isTruncated color="white">
@@ -147,18 +147,7 @@ export function StatsCard(props: StatsCardProps) {
             {overlay}
             <ModalContent bg="green.900">
               <ModalHeader color="white" fontSize="4xl" textAlign="center">
-                Sorteio:{' '}
-                {newdate
-                  .toLocaleDateString()
-                  .split('/')
-                  .map((value, index) => {
-                    if (index === 0) {
-                      const newDay = (+value + 1).toString().padStart(2, '0');
-                      return newDay;
-                    }
-                    return value;
-                  })
-                  .join('/')}
+                Sorteio: {newDate}
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody>

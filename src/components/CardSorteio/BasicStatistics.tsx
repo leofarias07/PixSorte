@@ -69,7 +69,7 @@ export default function BasicStatistics({
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, lg: 8 }}>
           {cards &&
             cards
-              .sort((a, b) => +new Date(b.date_sort) - +new Date(a.date_sort))
+              .sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at))
               .map(card => (
                 <StatsCard
                   key={card.card_id}
