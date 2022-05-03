@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import {
   Button,
   Flex,
@@ -13,8 +14,13 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import React from 'react';
 import FormModal from './FormModal';
+import { CardsProps } from '.';
 
-export default function FormCard() {
+type FormCardProps = {
+  cards: CardsProps[];
+};
+
+export default function FormCard({ cards }: FormCardProps) {
   const OverlayOne = () => (
     <ModalOverlay
       bg="none"
@@ -36,10 +42,16 @@ export default function FormCard() {
         leftIcon={<AddIcon />}
         colorScheme="yellow"
         variant="solid"
+        isDisabled={cards.some(card => card.status === null)}
+        title={
+          cards.some(card => card.status === null)
+            ? 'Termine um sorteio que está pendente para poder criar outro'
+            : 'Crie um Sorteio'
+        }
       >
         Novo Sorteio
       </Button>
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size="6xl">
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size="3xl">
         {overlay}
         <ModalContent bg="green.900">
           <ModalHeader color="white">Cartela</ModalHeader>

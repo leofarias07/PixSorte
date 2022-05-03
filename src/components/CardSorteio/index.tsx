@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-children-prop */
 import { Box, Flex, Spacer } from '@chakra-ui/react';
@@ -36,7 +37,7 @@ export default function CardSoteio(props: CardArray) {
         <Box />
         <Spacer />
         <Box>
-          <FormCard />
+          <FormCard cards={props.cards} />
         </Box>
       </Flex>
       <BasicStatistics

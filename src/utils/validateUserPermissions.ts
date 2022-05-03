@@ -13,18 +13,17 @@ type ValidateUserPermissionsParams = {
 
 export function ValidateUserPermissions({
   user,
-  permissions,
   roles
 }: ValidateUserPermissionsParams) {
-  if (permissions?.length > 0) {
-    const hasAllPermissions = permissions.every(permission =>
-      user.permissions.includes(permission)
-    );
+  // if (permissions?.length > 0) {
+  //   const hasAllPermissions = permissions.some(permission =>
+  //     user.permissions.includes(permission)
+  //   );
 
-    if (!hasAllPermissions) {
-      return false;
-    }
-  }
+  //   if (!hasAllPermissions) {
+  //     return false;
+  //   }
+  // }
 
   if (roles?.length > 0) {
     const hasAllRoles = roles.some(role => user.roles.includes(role));
