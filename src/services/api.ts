@@ -12,7 +12,7 @@ let failedRequestsQueue = [];
 const apiUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3333/api/'
-    : 'https://pixsorte.herokuapp.com/api';
+    : 'https://pixsorte.herokuapp.com/api/';
 
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
