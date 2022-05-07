@@ -111,9 +111,15 @@ export function StatsCard(props: StatsCardProps) {
             <Icon as={MdDateRange} fontSize="4xl" /> {newDate}
           </Text>
         </StatLabel>
+        <StatLabel fontWeight="medium" isTruncated>
+          <Text fontSize="xl" color="yellow.400">
+            {card.title}
+          </Text>
+        </StatLabel>
         <StatLabel fontWeight="medium" isTruncated color="white">
           <Text fontSize="2xl">Premio: {card.status || 'Pendente'}</Text>
         </StatLabel>
+
         <StatLabel>
           <Text
             fontSize="2xl"
@@ -196,7 +202,8 @@ export function StatsCard(props: StatsCardProps) {
                       Valor R$: {card.unit_price}
                     </Text>
                     <Text color="white" fontSize="xl" fontWeight="bold">
-                      Range: {card.amount_random_number}
+                      Quantidade de números aleatórios por cartela:{' '}
+                      {card.amount_random_number}
                     </Text>
                     <Flex>
                       <HStack>

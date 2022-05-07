@@ -6,14 +6,10 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
-  Image,
   Input,
-  Text,
-  useColorModeValue
+  Select
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../../services/apiClient';
 
@@ -25,10 +21,11 @@ export default function FormModal(props: FormModalProps) {
   const [title, setTitle] = useState('');
   const [numberOfCards, setNumberOfCards] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
-  const [min, setMin] = useState('');
-  const [max, setMax] = useState('');
+  const [range, setRange] = useState('Range dos números (padrão = milhar)');
+  const [min, setMin] = useState<number | null>(null);
+  const [max, setMax] = useState<number | null>(null);
   const [date, setDate] = useState('');
-  const [amountRandomNumber, setAmountRandomNumber] = useState('');
+  const [amountRandomNumber, setAmountRandomNumber] = useState('1');
 
   type HandleSubmitErrorProps = {
     data: {
@@ -38,53 +35,102 @@ export default function FormModal(props: FormModalProps) {
     };
   };
 
+  function defineRange() {
+    if (+amountRandomNumber === 0) {
+      setAmountRandomNumber('1');
+    }
+
+    if (+numberOfCards * +amountRandomNumber <= 9) {
+      setRange('unidade');
+    } else if (+numberOfCards * +amountRandomNumber <= 99) {
+      setRange('dezena');
+    } else if (+numberOfCards * +amountRandomNumber <= 999) {
+      setRange('centena');
+    } else {
+      setRange('milhar');
+    }
+  }
+
+  useEffect(() => {
+    defineRange();
+  }, [numberOfCards, amountRandomNumber]);
+  useEffect(() => {
+    switch (range) {
+      case 'unidade':
+        setMin(1);
+        setMax(9);
+        break;
+      case 'dezena':
+        setMin(10);
+        setMax(99);
+        break;
+      case 'centena':
+        setMin(100);
+        setMax(999);
+        break;
+      case 'milhar':
+        setMin(1000);
+        setMax(9999);
+        break;
+      default:
+        setMin(1000);
+        setMax(9999);
+    }
+  }, [range]);
+
   async function HandleSubmit() {
     const data = {
       title,
       number_of_cards: +numberOfCards,
       unit_price: +unitPrice,
-      min: +min,
-      max: +max,
+      min,
+      max,
       amount_random_number: +amountRandomNumber,
       client_id: localStorage.getItem('user_uuid'),
       date_sort: date
     };
-    console.log(data.date_sort);
-    // const generateCard = async () =>
-    //   api.post('cards/generate', data).then(() => {
-    //     setTimeout(() => {
-    //       window.location.href = '/dashboard';
-    //     }, 1000);
-    //   });
-    // toast.promise(generateCard, {
-    //   pending: {
-    //     render() {
-    //       props.onClose();
-    //       return 'Gerando Cartelas';
-    //     },
-    //     icon: <CircularProgress size="20px" isIndeterminate color="green.300" />
-    //   },
-    //   success: {
-    //     render() {
-    //       return `Cartelas geradas`;
-    //     },
-    //     // other options
-    //     icon: '🟢'
-    //   },
-    //   error: {
-    //     render(error: HandleSubmitErrorProps) {
-    //       // When the promise reject, data will contains the error
-    //       return `Erro: ${error.data.response.data}`;
-    //     }
-    //   }
-    // });
+
+    const generateCard = async () =>
+      api.post('cards/generate', data).then(() => {
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1000);
+      });
+    toast.promise(generateCard, {
+      pending: {
+        render() {
+          props.onClose();
+          return 'Gerando Cartelas';
+        },
+        icon: <CircularProgress size="20px" isIndeterminate color="green.300" />
+      },
+      success: {
+        render() {
+          return `Cartelas geradas`;
+        },
+        // other options
+        icon: '🟢'
+      },
+      error: {
+        render(error: HandleSubmitErrorProps) {
+          // When the promise reject, data will contains the error
+          return `Erro: ${error.data.response.data}`;
+        }
+      }
+    });
   }
 
   return (
     <>
-      <Flex direction={['column', 'row']} gap="3" justify="space-between">
-        <Flex w={[350, 400, 500]} direction={['column']} gap="2">
-          <FormControl>
+      <Flex
+        direction={['column', 'row']}
+        gap="3"
+        justifyContent="stretch"
+        alignItems="stretch"
+        w="full"
+      >
+        <Flex w={[350, 400, 'full']} direction={['column']} gap="2" flex={1}>
+          <FormControl w="full" flex={1}>
             <Flex gap="2" direction="column">
               <Input
                 id="title"
@@ -94,9 +140,10 @@ export default function FormModal(props: FormModalProps) {
                   setTitle(e.target.value);
                 }}
                 placeholder="Titulo do sorteio"
+                color="white"
               />
 
-              <Flex gap="3">
+              <Flex gap="2">
                 <Input
                   id="number_of_cards"
                   type="number"
@@ -104,47 +151,53 @@ export default function FormModal(props: FormModalProps) {
                   onChange={e => {
                     setNumberOfCards(e.target.value);
                   }}
-                  placeholder="Numero de Cartelas"
+                  placeholder="Quantidade de Cartelas"
+                  color="white"
                 />
-                <Input
-                  id="unit_price"
+                {/* <Input
+                  id="amount_random_number"
                   type="number"
-                  value={unitPrice}
+                  value={amountRandomNumber}
                   onChange={e => {
-                    setUnitPrice(e.target.value);
+                    setAmountRandomNumber(e.target.value);
                   }}
-                  placeholder="Preço da Cartela"
-                />
+                  placeholder="Quant. de números aleatórios"
+                /> */}
+                <Select
+                  placeholder="Quant. de números aleatórios"
+                  color="black"
+                  onChange={event => {
+                    setAmountRandomNumber(event.currentTarget.value);
+                  }}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </Select>
               </Flex>
             </Flex>
             <Flex gap="2" mt="2">
+              <Select
+                placeholder={`Range: ${range}`}
+                color="black"
+                onChange={event => setRange(event.currentTarget.value)}
+                isDisabled
+              >
+                <option value="unidade">Unidade (0 - 9)</option>
+                <option value="dezena">Dezena (10 - 99)</option>
+                <option value="centena">Centena (100 - 999)</option>
+                <option value="milhar">Milhar (1000 - 999)</option>
+              </Select>
               <Input
-                id="min"
+                id="unit_price"
                 type="number"
-                value={min}
+                value={unitPrice}
                 onChange={e => {
-                  setMin(e.target.value);
+                  setUnitPrice(e.target.value);
                 }}
-                placeholder="Minimo"
-              />
-
-              <Input
-                id="max"
-                type="number"
-                value={max}
-                onChange={e => {
-                  setMax(e.target.value);
-                }}
-                placeholder="Maximo"
-              />
-              <Input
-                id="amount_random_number"
-                type="number"
-                value={amountRandomNumber}
-                onChange={e => {
-                  setAmountRandomNumber(e.target.value);
-                }}
-                placeholder="Numeros por cartela"
+                placeholder="Preço da Cartela"
+                color="white"
               />
             </Flex>
             <Flex gap="2" direction="column" mt="2">
@@ -155,6 +208,7 @@ export default function FormModal(props: FormModalProps) {
                 id="date"
                 type="date"
                 value={date}
+                color="white"
                 onChange={e => {
                   setDate(e.target.value);
                 }}
@@ -174,133 +228,6 @@ export default function FormModal(props: FormModalProps) {
               </Button>
             </Flex>
           </FormControl>
-        </Flex>
-
-        <Flex
-          w={[350, 400, 500]}
-          p="2"
-          justify="center"
-          border="1px solid"
-          borderColor="white"
-          direction="column"
-        >
-          <Flex w="26" h="10" justify="center" alignItems="end">
-            <Image src="/pixsortelogo.png" alt="pixsorte" />
-          </Flex>
-          <Grid h="200" templateColumns="repeat(4, 1fr)" gap="2">
-            <GridItem colSpan={3}>
-              <Text
-                textAlign="center"
-                color="white"
-                fontWeight="bold"
-                fontSize={['10px', '18px']}
-                mt="3"
-              >
-                NOSSO SORTEIO É FEITO AO VIVO <br /> NO NOSSO INSTAGRAN
-                @PIXSORTE...
-              </Text>
-              <Text
-                textAlign="center"
-                color="white"
-                fontWeight="bold"
-                fontSize={['10px', '18px']}
-                mt="2"
-              >
-                AS 20:00 DE SEGUNDA Á SEXTA
-              </Text>
-              <Flex mt="10" gap="2">
-                <Flex p="1" direction="column" justify="center" bg="green">
-                  <Text
-                    color="yellow"
-                    fontWeight="bold"
-                    fontSize={['6px', '10px']}
-                    textAlign="center"
-                  >
-                    Valor do Bilhete
-                  </Text>
-                  <Text color="yellow" fontWeight="bold" textAlign="center">
-                    2,50
-                  </Text>
-                </Flex>
-                <Flex>
-                  <Text
-                    textAlign="center"
-                    color="white"
-                    fontWeight="bold"
-                    fontSize={['6px', '9px']}
-                  >
-                    O jogador paga R$ 2.50 e recebe um bilhete com 4 milhares{' '}
-                    <br /> Caso alguma milhar seja sorteada o jogador recebe R$
-                    600,00 <br /> Podendo acumular chegando até R$ 10.000,00{' '}
-                    <br /> 0000.57
-                  </Text>
-                </Flex>
-              </Flex>
-            </GridItem>
-
-            <GridItem colSpan={1}>
-              <Flex w="auto" direction="column" justify="center" gap="2">
-                <Text
-                  fontSize={['12px', '20px']}
-                  fontWeight="bold"
-                  textAlign="center"
-                  color="white "
-                  shadow="xl"
-                  border="1px solid"
-                  borderColor={useColorModeValue('green.800', 'green.500')}
-                  rounded="base"
-                >
-                  1234
-                </Text>
-                <Text
-                  fontSize={['12px', '20px']}
-                  fontWeight="bold"
-                  textAlign="center"
-                  color="white "
-                  shadow="xl"
-                  border="1px solid"
-                  borderColor={useColorModeValue('green.800', 'green.500')}
-                  rounded="base"
-                >
-                  1234
-                </Text>
-                <Text
-                  fontSize={['12px', '20px']}
-                  fontWeight="bold"
-                  textAlign="center"
-                  color="white "
-                  shadow="xl"
-                  border="1px solid"
-                  borderColor={useColorModeValue('green.800', 'green.500')}
-                  rounded="base"
-                >
-                  1234
-                </Text>
-                <Text
-                  fontSize={['12px', '20px']}
-                  fontWeight="bold"
-                  textAlign="center"
-                  color="white "
-                  shadow="xl"
-                  border="1px solid"
-                  borderColor={useColorModeValue('green.800', 'green.500')}
-                  rounded="base"
-                >
-                  1234
-                </Text>
-
-                <Text textAlign="center" fontWeight="bold" fontSize="12px">
-                  Data <br /> 12/03/2022
-                </Text>
-              </Flex>
-            </GridItem>
-          </Grid>
-          <Flex w="100%" bg="yellow">
-            <Text fontSize={['9px', '14px']} fontWeight="bold">
-              {' '}
-              COMPRANDO PIX SORTE VOCÊ ESTARÁ AJUDANDO FAMÍLIAS CARENTE
-            </Text>
-          </Flex>
         </Flex>
       </Flex>
     </>
