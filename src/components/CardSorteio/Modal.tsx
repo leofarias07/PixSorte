@@ -42,7 +42,6 @@ export default function FormCard({ cards }: FormCardProps) {
         leftIcon={<AddIcon />}
         colorScheme="yellow"
         variant="solid"
-        isDisabled={cards.some(card => card.status === null)}
         title={
           cards.some(card => card.status === null)
             ? 'Termine um sorteio que está pendente para poder criar outro'
